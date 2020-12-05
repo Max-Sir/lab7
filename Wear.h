@@ -13,6 +13,10 @@ public:
 	string name;
 	double_t cost;
 
+	bool operator<(const Wear& other)
+	{
+		return this->cost < other.cost;
+	}
 
 	Wear(const Wear& other);
 
@@ -28,7 +32,7 @@ public:
 	inline size_t get_id() const;
 
 	static size_t count;
-	inline Wear(string name = "golden ring", double_t cost = 100.0+ rand() % 180);
+	inline Wear(string name = "golden ring", double_t cost = 100.0 + rand() % 180);
 	inline friend ostream& operator<<(ostream&, const Wear&);
 	friend class Customer;
 	Wear& operator=(const Wear& other)
@@ -75,20 +79,21 @@ inline size_t Wear::get_id() const
 	return this->id;
 }
 
-inline Wear::Wear(string name, double_t cost): id(++count), name(std::move(name)), cost(cost)
+inline Wear::Wear(string name, double_t cost) : id(++count+rand()% 150), name(std::move(name)), cost(cost)
 {
+	srand(time(NULL));
 }
 
 inline Wear::~Wear() = default;  // NOLINT(clang-diagnostic-deprecated-copy-dtor)
 
-inline ostream& operator<<(ostream& out, const Wear& w)
+inline ostream& operator<<(ostream & out, const Wear & w)
 {
 	string decor = "-";
-	for(int i=0;i<16;++i)
+	for (int i = 0; i < 16; ++i)
 	{
 		decor += decor[0];
 	}
-	out << decor << "\nid: " << w.id << "\nname: " << w.name << "\ncost: " << w.cost<<"$" << endl << decor << endl;
+	out << decor << "\nid: " << w.id << "\nname: " << w.name << "\ncost: " << w.cost << "$" << endl << decor << endl;
 	return out;
 }
 
@@ -100,7 +105,7 @@ inline bool operator==(Wear first, Wear other)
 class Customer
 {
 public:
-	static void set_cost(Wear& w,double_t cost)
+	static void set_cost(Wear& w, double_t cost)
 	{
 		w.cost = cost;
 	}

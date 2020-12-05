@@ -20,7 +20,7 @@ public:
         Node() {
             next = nullptr;
             prev = nullptr;
-            
+
         }
         Node& operator[](int index) {
             Node* tmp = head;
@@ -42,10 +42,10 @@ public:
         }
     };
     class Map_Iterator
-	{
+    {
         Node* tmp;
 
-    	public:
+    public:
         Map_Iterator() {
             tmp = nullptr;
         }
@@ -80,6 +80,26 @@ public:
         T& operator*() {
             return tmp->data;
         }
+
+        Node*& operator[](int index) {
+            try {
+                if (size == 0) {
+                    throw "The Map container is empty!\n";
+                }
+            }
+            catch (const char* i) {
+                Exception ex(i);
+                ex.what();
+            }
+            Node* tmp = head;
+            int count = 0;
+            while (count != index) {
+                count++;
+                tmp = tmp->next;
+            }
+            return tmp;
+        }
+    	
         Map_Iterator& operator+(int data) {
             int i = 0;
             while (i < data) {
@@ -157,7 +177,7 @@ public:
         int fl = 0;
         while (tmp != nullptr) {
             if (tmp->key.id == id) {
-                cout << "FIND:\n " << tmp->data << "\nKEY is object: \n" << tmp->key<<"\n\n";
+                cout << "FIND:\n " << tmp->data << "\nKEY is object: \n" << tmp->key << "\n\n";
                 fl = 1;
             }
             tmp = tmp->next;
@@ -249,12 +269,50 @@ public:
         {
             tmp = _array[counter];
             int it = counter - 1;
-            while (it >= 0 && _array[it]->key.id < tmp->key.id)
+            while (it >= 0 && _array[it]->key.cost < tmp->key.cost)
             {
                 _array[it + 1] = _array[it];
                 _array[it] = tmp;
                 it--;
             }
+        }
+    }
+	
+    void pasteSort() {
+        if (!(this->head && this->tail)) return;
+        Node* current_node = this->head,
+            * spoted_node;
+        while (current_node != this->tail)
+        {
+            spoted_node = current_node->next;
+            while (spoted_node->key.cost < spoted_node->prev->key.cost)
+            {
+                if (spoted_node->next) {
+                    spoted_node->next->prev = spoted_node->prev;
+                }
+                else {
+                    this->tail = spoted_node->prev;//вот тута замечательный эксепшн для попытки сорта контэйнера с одним элементом
+                }
+                spoted_node->prev->next = spoted_node->next;
+                spoted_node->prev = spoted_node->prev->prev;
+                if (!spoted_node->prev) break;
+            }
+            if (spoted_node->prev) {
+                if (spoted_node->prev != current_node) {
+                    spoted_node->next = spoted_node->prev->next;
+                    spoted_node->prev->next = spoted_node;
+                    spoted_node->next->prev = spoted_node;
+                }
+            }
+            else
+            {
+                this->head->prev = spoted_node;
+                spoted_node->next = this->head;
+                this->head = spoted_node;
+            }
+            if (current_node->next == spoted_node)
+                current_node = spoted_node;
+
         }
     }
 };

@@ -22,13 +22,13 @@ int main()
 
     //in the statement was talked that sort must be by keys\
 		I sorted be id's, but it's insane and unusefull
-	
-	for (int i = 0; i < map_1.Size(); i++) {
+
+    for (int i = 0; i < map_1.Size(); i++) {
         cout << " " << *i1;
         ++i1;
     }
     cout << "\n";
-	//example of popping
+    //example of popping
     map_1.pop();
     map_1.pop();
     i1 = map_1._begin();
@@ -109,7 +109,7 @@ int main()
     i3 = map_3._begin();
     map_3.search(21);
     cout << "Wear :" << endl;
-    class Wear a("red jacket", 2.565), b("Blueprint new jacket", 21.6), c("speed shoes", 9.564), d("Gucci bag", 300.5314), f("T-Shirts with golden Sticker", 1000.51);
+    class Wear a("red jacket", 2.565), b("Blueprint new jacket", 21.6), c("speed shoes", 900.564), d("Gucci bag", 300.5314), f("T-Shirts with golden Sticker", 1000.51);
     map_4.push(a);
     map_4.push(b);
     map_4.push(c);
@@ -130,7 +130,7 @@ int main()
     }
     std::cout << "\n";
     i4 = map_4._begin();
-    map_4.Insertion_Sort(map_4);
+    map_4.pasteSort();
     i4 = map_4._begin();
     for (int i = 0; i < map_4.Size(); i++) {
         cout << " " << *i4 << endl;
